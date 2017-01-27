@@ -43,7 +43,7 @@ const routeManager = {
             );
             
             const {secret, token, verifier} = req.query;
-            oauth.getOAuthAccessToken(token, secret, verifier, function(err, access_token, access_secret, result) {
+            oauth.getOAuthAccessToken(token, secret, verifier, function(err, access_token, access_secret, user) {
                 if (err) {
                     res.json({
                         status: "fail", 
@@ -52,12 +52,13 @@ const routeManager = {
                         });
                     return;
                 }
+                req.session.username = user.screen_name;
                 res.json({
                     status: "success",
                     data: {
                         access_token,
                         access_secret,
-                        result
+                        user
                     }
                 });
             }); 
