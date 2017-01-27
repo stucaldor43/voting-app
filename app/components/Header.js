@@ -7,9 +7,7 @@ class Header extends React.Component {
     }
     
     signIn() {
-      var self = this;
-      
-      var req = new XMLHttpRequest();
+      const req = new XMLHttpRequest();
       req.addEventListener("load", function() {
         const response = JSON.parse(this.response);
         if (response.status === "success") {
@@ -36,7 +34,7 @@ class Header extends React.Component {
             localStorage.setItem("verifier", query["oauth_verifier"]);
       }
       
-      var req = new XMLHttpRequest();
+      const req = new XMLHttpRequest();
       req.addEventListener("load", function() {
         const response = JSON.parse(this.response);
         if (response.status === "success") {

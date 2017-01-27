@@ -11,7 +11,7 @@ const routeManager = {
             res.render('index.hbs');
         });
         app.get('/api/get_request_token', (req, res) => {
-            var oauth = new OAuth.OAuth(
+            const oauth = new OAuth.OAuth(
               'https://api.twitter.com/oauth/request_token',
               'https://api.twitter.com/oauth/access_token',
               process.env['TWITTER_ID'],
@@ -32,7 +32,7 @@ const routeManager = {
             });
         });
         app.get("/api/get_access_token", function(req, res) {
-            var oauth = new OAuth.OAuth(
+            const oauth = new OAuth.OAuth(
               'https://api.twitter.com/oauth/request_token',
               'https://api.twitter.com/oauth/access_token',
               process.env['TWITTER_ID'],
