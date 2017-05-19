@@ -21,7 +21,7 @@ class Client extends Model {
         return {
             polls_created: {
                 relation: Model.HasManyRelation,
-                modelClass: Poll,
+                modelClass: `${__dirname}/Poll`,
                 join: {
                     from: "client.id",
                     to: "poll.fk_client_id"
@@ -29,7 +29,7 @@ class Client extends Model {
             },
             polls_voted_on: {
                 relation: Model.ManyToManyRelation,
-                modelClass: Poll,
+                modelClass: `${__dirname}/Poll`,
                 join: {
                     from: "client.id",
                     through: {

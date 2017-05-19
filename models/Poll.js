@@ -23,7 +23,7 @@ class Poll extends Model {
         return {
             poll_owner: {
                 relation: Model.BelongsToOneRelation,
-                modelClass: Client,
+                modelClass: `${__dirname}/Client`,
                 join: {
                     from: "poll.fk_client_id",
                     to: "client.id"
@@ -31,7 +31,7 @@ class Poll extends Model {
             },
             options: {
                 relation: Model.HasManyRelation,
-                modelClass: PollOption,
+                modelClass: `${__dirname}/PollOption`,
                 join: {
                     from: "poll.id",
                     to: "poll_option.fk_poll_id"
@@ -39,7 +39,7 @@ class Poll extends Model {
             },
             voters: {
                 relation: Model.ManyToManyRelation,
-                modelClass: Client,
+                modelClass: `${__dirname}/Client`,
                 join: {
                     from: "poll.id",
                     through: {

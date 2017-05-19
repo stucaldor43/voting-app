@@ -23,7 +23,7 @@ class PollOption extends Model {
         return {
             owning_poll: {
                 relation: Model.BelongsToOneRelation,
-                modelClass: Poll,
+                modelClass: `${__dirname}/Poll`,
                 join: {
                     from: 'poll_option.fk_poll_id',
                     to: "poll.id"
