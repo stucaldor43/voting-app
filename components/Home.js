@@ -9,20 +9,23 @@ class Home extends React.Component {
     }
     
     componentDidMount() {
-        fetch("/api/polls")
-        .then(response => response.json())
-        .then(json => {
-            this.setState({ polls: json.data });
-        });
+        this.goToPage(this.state.page);
     }
     
     componentDidUpdate(prevProps, prevState) {
         if (this.state.page !== prevState.page) {
-            // alter state to show more polls
-            console.log(`page changed!`);
+            this.goToPage(this.state.page);
         }   
     }
     
+    goToPage(page) {
+        fetch(`/api/polls/?page=${this.state.page}`)
+              .then(response => response.json())
+              .then(json => {
+                this.setState({ polls: json.data.polls });
+              });
+    }
+
     navigateToNextPage() {
         this.setState((state) => { 
             return {
@@ -42,7 +45,7 @@ class Home extends React.Component {
     render() {
         let element;
         element = this.state.polls.map((poll) => {
-            return(
+            return (
               <div>
                 <h2><Link to={ `/poll/${poll.id}` }>{ poll.title }</Link></h2>
               </div>
