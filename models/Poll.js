@@ -7,17 +7,17 @@ class Poll extends Model {
         return 'poll';
     }
     
-    static get jsonSchema() {
-        return {
-            type: "object",
-            required: ["title", "fk_client_id"],
-            properties: {
-                id: { type: "integer" },
-                title: { type: "string", minLength: 1, maxLength: 255 },
-                fk_client_id: { type: "integer" }
-            }
-        };
-    }
+    // static get jsonSchema() {
+    //     return {
+    //         type: "object",
+    //         required: ["title", "fk_client_id"],
+    //         properties: {
+    //             id: { type: "integer" },
+    //             title: { type: "string", minLength: 1, maxLength: 255 },
+    //             fk_client_id: { type: "integer" }
+    //         }
+    //     };
+    // }
     
     static get relationMappings() {
         return {
