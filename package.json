@@ -1,0 +1,53 @@
+{
+  "name": "browserify-gulp-nodemon-browsersync-boilerplate",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "prebuild": "del-cli public/bundle.js",
+    "build": "webpack --watch",
+    "start": "npm run build -s",
+    "server": "node ./app.js"
+  },
+  "author": "Anthony Cook <ddragonmaster49@yahoo.com>",
+  "license": "ISC",
+  "devDependencies": {
+    "babel-core": "^6.24.1",
+    "babel-loader": "^7.0.0",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-react": "^6.16.0",
+    "bluebird": "^3.4.7",
+    "body-parser": "^1.15.2",
+    "browser-sync": "^2.17.5",
+    "browser-sync-webpack-plugin": "^1.1.4",
+    "browserify": "^13.1.0",
+    "consolidate": "^0.14.1",
+    "cookie-parser": "^1.4.3",
+    "del-cli": "^0.2.1",
+    "express": "^4.14.0",
+    "express-session": "^1.15.0",
+    "gulp": "^3.9.1",
+    "gulp-babel": "^6.1.2",
+    "gulp-nodemon": "^2.2.1",
+    "handlebars": "^4.0.5",
+    "history": "^4.3.0",
+    "knex": "^0.13.0",
+    "oauth": "^0.9.14",
+    "objection": "^0.7.12",
+    "pg": "^6.1.0",
+    "pg-promise": "^5.5.0",
+    "pgpromise": "^0.1.1",
+    "react": "^15.3.2",
+    "react-router": "^2.8.1",
+    "vinyl-source-stream": "^1.1.0",
+    "webpack": "^2.5.1"
+  },
+  "dependencies": {
+    "chart.js": "^2.5.0",
+    "pg": "^6.1.0",
+    "pg-hstore": "^2.3.2",
+    "promise-polyfill": "^6.0.2",
+    "react-dom": "^15.3.2",
+    "whatwg-fetch": "^2.0.3"
+  }
+}

@@ -2,7 +2,7 @@ const path = require('path');
 const BrowserSyncPlugin = require('browser-sync-webpack-plugin');
 
 module.exports = {
-    entry: "./index.js",
+    entry: ["whatwg-fetch", "./index.js"],
     output: {
         path: path.resolve(__dirname, "public"),
         filename: "bundle.js"
