@@ -115,7 +115,7 @@ router.post("/", jsonParser, (req, res, next) => {
 router.delete("/:id", (req, res, next) => {
     Poll
       .query()
-      .findById(req.params.id)
+      .deleteById(req.params.id)
       .then(() => res.sendStatus(204))
       .catch(next);
 });
