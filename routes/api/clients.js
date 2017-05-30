@@ -38,31 +38,40 @@ router.delete("/:id", (req, res, next) => {
 });
 
 router.get("/:id/createdPolls", (req, res, next) => {
-    objection.transaction(Poll, (Poll) => {
-      return Poll
-        .query()
-        .where("fk_client_id", req.params.id)
-        .then((polls) => {
-          let result = { polls: [] };
-          return Promise.all(polls.map((poll) => {
+    if (typeof Number(req.query.page) !== "number") {
+      res.sendStatus(400);
+      return;
+    }
+
+    const page = req.query.page;
+    const maxRecordsPerPage = 20;
+    
+    return Poll
+      .query()
+      .where("fk_client_id", req.params.id)
+      .offset((page - 1) * maxRecordsPerPage)
+      .limit(maxRecordsPerPage)
+      .then((polls) => {
+        let result = { polls: [] };
+        return Promise.all(polls.map((poll) => {
+          return poll
+          .$relatedQuery("options")
+          .whereNotNull("id")
+          .then((poll_options) => {
             return poll
-            .$relatedQuery("options")
-            .whereNotNull("id")
-            .then((poll_options) => {
-              return poll
-                .$relatedQuery("poll_owner")
-                .whereNotNull("id")
-                .then(() => result.polls.push(poll.toJSON()))
-            })
-          }))
-          .then(() => {
-            res.set("Content-Type", "application/json");
-            res.send(jsend.success(result));
+              .$relatedQuery("poll_owner")
+              .whereNotNull("id")
+              .then(() => result.polls.push(poll.toJSON()))
           })
-          .catch(next);
-      })
-      .catch(next)
+        }))
+        .then(() => {
+          res.set("Content-Type", "application/json");
+          res.send(jsend.success(result));
+        })
+        .catch(next);
     })
+    .catch(next)
+    
 });
 
 
