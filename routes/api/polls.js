@@ -111,6 +111,33 @@ router.post("/", jsonParser, (req, res, next) => {
     });
 });
 
+router.post("/:id/options", jsonParser, (req, res, next) => {
+  objection.transaction(Poll, (Poll) => {
+    return Poll
+            .query()
+            .findById(req.params.id)
+            .then((poll) => {
+              return Promise.all(
+                req.body.options.map(option => {
+                  return poll
+                    .$relatedQuery("options")
+                    .insert({
+                      message: option.message,
+                      votes: 0
+                    })
+                 })
+              )
+              .then((options) => {
+                res.set("Content-Type", "application/json");
+                res.send(
+                  jsend.success({ options: options.map((option) => option.toJSON()) })
+                );
+              })
+              .catch(next);
+            })
+            .catch(next)
+  })
+});
 
 router.delete("/:id", (req, res, next) => {
     Poll
