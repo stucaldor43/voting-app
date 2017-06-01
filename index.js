@@ -13,13 +13,11 @@ import "promise-polyfill";
 window.addEventListener("load", () => {
     ReactDOM.render((
         <Router history={hashHistory}>
-          <Route path="/" onEnter={ () => location.replace("/#/home/?_k=gbfjva")  }>
-          <Route path='/home' component={ App }>
+          <Route path='/' component={ App }>
             <IndexRoute component={ Home }/>
             <Route path="/mypolls" component={ MyPolls }/>
             <Route path="/poll/:id" component={ Poll }/>
             <Route path='*' component={ NotFound }/>
-          </Route>
           </Route>
         </Router>), document.getElementById("main"));    
 });
