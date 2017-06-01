@@ -1,0 +1,23 @@
+# dist directory
+dist/
+
+# node modules directory
+node_modules/
+
+# Gulp file
+gulpfile.js
+
+# Babel presets file
+.babelrc
+
+# Files with sensitive information
+dist/environment-manager.js
+
+# Webpack generated file
+public/bundle.js
+
+# source maps
+public/*.map
+
+# experimental file
+test.js
