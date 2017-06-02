@@ -45,4 +45,9 @@ class PieChart extends React.Component {
     }
 }
 
+PieChart.propTypes = {
+    chartLabels: PropTypes.arrayOf(PropTypes.string),
+    chartData: PropTypes.arrayOf(PropTypes.number) 
+}
+
 export default PieChart;
