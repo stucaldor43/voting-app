@@ -19,7 +19,7 @@ class Home extends React.Component {
     }
     
     goToPage(page) {
-        fetch(`/api/polls/?page=${this.state.page}`)
+        fetch(`/api/polls/?page=${this.state.page}`, {credentials: "same-origin"})
               .then(response => response.json())
               .then(json => {
                 this.setState({ polls: json.data.polls });

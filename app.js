@@ -1,12 +1,18 @@
 const express = require('express');
 const cons = require('consolidate');
 const session = require('express-session');
+const KnexSessionStore = require('connect-session-knex')(session);
 const objection = require("objection");
 const Knex = require('knex');
 const Model = require("objection").Model;
 const knexConfig = require("./knexfile");
 
 const knex = Knex(knexConfig);
+const store = new KnexSessionStore({
+    knex: knex,
+    tablename: 'sessions', // optional. Defaults to 'sessions'
+    createtable: true
+});
 Model.knex(knex);
 
 // const schemaPromise = require("./initial_schema").up(knex);
@@ -16,15 +22,11 @@ Model.knex(knex);
 const app = express();
 app.use('/', express.static(__dirname + '/public'));
 app.use('/', session({
-    cookie: {
-      httpOnly: false,
-      secure: false,
-      maxAge: null,
-      path: '/',
-    },
+    name: "app.sid",
     secret: process.env['SESSION_SECRET'],
     resave: false,
-    saveUninitialized: false
+    saveUninitialized: false,
+    store: store
 }));
 app.use('/', require("./routes"));
 app.engine('hbs', cons.handlebars);

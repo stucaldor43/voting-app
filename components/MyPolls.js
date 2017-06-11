@@ -16,7 +16,7 @@ class MyPolls extends React.Component {
     }
     
     loadMorePolls() {
-        fetch(`/api/clients/1/createdPolls/?page=${this.state.page + 1}`)
+        fetch(`/api/clients/1/createdPolls/?page=${this.state.page + 1}`, {credentials: "same-origin"})
           .then(response => response.json())
           .then(json => {
             this.setState((state) => { 
@@ -30,7 +30,8 @@ class MyPolls extends React.Component {
 
     deletePoll(deletedPollId) {
       fetch(`/api/polls/${deletedPollId}`, {
-        method: "DELETE"
+        method: "DELETE",
+        credentials: "same-origin"
       })
         .then(() => {
           this.setState((state) => {
