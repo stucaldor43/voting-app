@@ -10,10 +10,11 @@ class Poll extends React.Component {
             options: []
           } 
         };
+        this.submitVote = this.submitVote.bind(this);
     }
     
     componentDidMount() {
-        fetch(`/api/polls/${this.props.params.id}`)
+        fetch(`/api/polls/${this.props.params.id}`, {credentials: "same-origin"})
           .then(response => response.json())
           .then(json => {
             this.setState({ poll: json.data });
@@ -21,7 +22,30 @@ class Poll extends React.Component {
     }
 
     submitVote() {
-    
+      let chosenPollOptionValue;
+      for (const input of document.getElementsByTagName("input")) {
+        if (input.checked === true) {
+          chosenPollOptionValue = input.value;
+          break;
+        }
+      }
+      fetch("/api/polls/2/vote", {
+        method: "POST",
+        body: JSON.stringify({
+          voters_selection: chosenPollOptionValue
+        }),
+        headers: {
+          "Content-Type": "application/json"
+        },
+        credentials: "same-origin"
+      })
+        .then(() => {
+          return fetch(`/api/polls/${this.props.params.id}`, {credentials: "same-origin"})
+                  .then(response => response.json())
+                  .then(json => {
+                    this.setState({ poll: json.data });
+                  });
+        });
     }
     
     render() {
@@ -40,7 +64,7 @@ class Poll extends React.Component {
         
         return (
           <div>
-            <form>
+            <form method="post" action="/api/polls/2/vote">
               <ul>
                 { pollOptionRadioButtons }
               </ul>

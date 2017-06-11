@@ -4,6 +4,7 @@ const Client = require("./../../models/Client");
 const bodyParser = require("body-parser");
 const objection = require("objection");
 const jsonParser = bodyParser.json();
+const urlEncodedParser = bodyParser.urlencoded({ extended: false })
 const jsend = require("./../../helpers/jsend");
 const router = require("express").Router();
 
@@ -12,7 +13,7 @@ router.get("/", (req, res, next) => {
       res.sendStatus(400);
       return;
     }
-
+    
     const page = req.query.page;
     const maxRecordsPerPage = 20;
 
@@ -136,7 +137,36 @@ router.post("/:id/options", jsonParser, (req, res, next) => {
               .catch(next);
             })
             .catch(next)
-  })
+  });
+});
+
+router.post("/:id/vote", jsonParser, (req, res, next) => {
+  objection.transaction(Poll, Client, PollOption, (Poll, Client, PollOption) => {
+    return Poll
+            .query()
+            .findById(req.params.id)
+            .then((poll) => {
+              return poll
+                      .$relatedQuery("options")
+                      .where("message", req.body.voters_selection)
+                      .first()
+                      .then((pollChoice) => {
+                        return pollChoice
+                                .$query()
+                                .patch({ votes: pollChoice.votes + 1 })
+                                .then((updatedOption) => {
+                                  return Client
+                                          .query()
+                                          .where("name", req.session.username || req.ip)
+                                          .first()
+                                          .then((user) => {
+                                            return user.$relatedQuery("polls_voted_on").relate(poll.id)
+                                          })
+                                          .then(() => res.sendStatus(204))
+                                })
+                      })
+            })
+  });
 });
 
 router.delete("/:id", (req, res, next) => {
